@@ -16,10 +16,10 @@ for (let element of input) {
     const direction = element.split("")[0];
     const num = Number(element.split("").slice(1).join(""));
 
-    const rotationOffset = getRotationOffset(direction, num);
     const { newPosition, zerosInRotation } = rotateDial(
         dialCurrentPosition,
-        rotationOffset
+        num,
+        direction
     );
 
     dialCurrentPosition = newPosition;
@@ -29,21 +29,18 @@ for (let element of input) {
 console.log(zeroCounter);
 
 /**
- * @param {number} currentPosition current position of dial
- * @param {number} rotationOffset offset to roate the dial by
+ * @param { number } currentPosition current position of dial
+ * @param { number } rotationOffset offset to roate the dial by
+ * @param { string } direction direction for the offset
  * @returns {{newPosition: number, zerosInRotation: number}} the new position of the dial and number of zeros encoutered during rotation
  */
-function rotateDial(currentPosition, rotationOffset) {
-    let newPosition = currentPosition + rotationOffset;
-    let zerosInRotation = 0;
+function rotateDial(currentPosition, rotationOffset, direction) {
+    let newPosition = currentPosition + getRotationOffset(direction, rotationOffset % 100);
+    let zerosInRotation = Math.floor(rotationOffset / 100);
 
-    while (newPosition < 0 || newPosition > 99) {
-        /*use 100 instead of 99 because 99 to 0 and 0 to 99 consumes one rotation */
-        if (newPosition < 0) newPosition = 100 - Math.abs(newPosition);
-        else if (newPosition > 99) newPosition = newPosition - 100;
+    if (newPosition <= 0 || newPosition >= 99) zerosInRotation++;
 
-        zerosInRotation++;
-    }
+    newPosition = Math.abs(newPosition % 100);
 
     return { newPosition, zerosInRotation };
 }
