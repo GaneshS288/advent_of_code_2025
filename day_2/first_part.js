@@ -19,10 +19,9 @@ for (const idRange of input) {
     const allIds = [...range(idRangeStart, idRangeEnd)];
 
     for (const id of allIds) {
-        const idStringLength = `${id}`.length
-        if (idStringLength % 2 !== 0)
-            continue;
-        
+        const idStringLength = `${id}`.length;
+        if (idStringLength % 2 !== 0) continue;
+
         const midpoint = idStringLength / 2;
 
         const idFirstHalf = `${id}`.slice(0, midpoint);
@@ -32,7 +31,7 @@ for (const idRange of input) {
     }
 }
 
-const invalidIdSum = invalidIds.reduce((accu, curr) => accu + curr, 0)
+const invalidIdSum = invalidIds.reduce((accu, curr) => accu + curr, 0);
 console.log(invalidIdSum);
 
 /**
